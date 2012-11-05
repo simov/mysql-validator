@@ -1,0 +1,30 @@
+{
+	"name": "mysql-validator",
+	"version": "0.1.0",
+	"description": "MySql data type validation.",
+	"keywords": [
+		"mysql",
+		"data",
+		"validation"
+	],
+	"license": "MIT",
+	"homepage": "http://simov.github.com/mysql-validator/",
+	"author": {
+		"name": "simo",
+		"email": "simeonvelichkov@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/simov/mysql-validator.git"
+	},
+	"dependencies": {
+		"moment": "*"
+	},
+	"devDependencies": {
+		"mysql": "2.0.0-alpha2",
+		"mocha": "*",
+		"should": "*",
+		"colors": "*"
+	},
+	"main": "./lib/validator"
+}
