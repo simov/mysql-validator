@@ -14,14 +14,15 @@ var mysql = require('mysql'),
 var validator = new (require('../lib/validator').Validator);
 
 
-function testDates (tests, cb) {
+function runTest (tests, cb) {
     var sql = '';
     for (var i=0; i < tests.length; i++) {
-        sql += 'insert into `datetime` (`time`) values ("'+tests[i]+'");';
+        sql += 'insert into `datatypes` (`time`) values ("'+tests[i]+'");';
     }
     c.query(sql, function (err, result) {
+        debugger;
         if (err) throw err;
-        c.query('select `time` from `datetime`;', function (err, rows) {
+        c.query('select `time` from `datatypes`;', function (err, rows) {
             if (err) throw err;
             console.log('');
             for (var j=0; j < tests.length; j++) {
@@ -34,7 +35,7 @@ function testDates (tests, cb) {
                 );
                 // ?
             }
-            c.query('delete from `datetime`;', function (err, result) {
+            c.query('delete from `datatypes`;', function (err, result) {
                 if (err) throw err;
                 cb();
             });
@@ -45,30 +46,23 @@ function testDates (tests, cb) {
 
 describe('data type', function () {
     before(function (done) {
-        c.query('create schema if not exists `mysql-express-admin`;'+ 
-                'use `mysql-express-admin`;',
-        function (err, rows) {
+        var schema = fs.readFileSync('./test/fixtures/schema.sql', 'utf8');
+        c.query(schema, function (err, rows) {
             if (err) throw err;
-            var schema = fs.readFileSync('./test/fixtures/schema.sql', 'utf8');
-            c.query(schema, function (err, rows) {
-                if (err) throw err;
-                done();
-            });
+            done();
         });
     });
 
     describe('TIME', function () {
         it('should be well formatted', function (done) {
-            var tests = TEST.format;
-            testDates(tests, function () {
+            runTest(TEST.format, function () {
                 done();
             });
         });
     });
 
     after(function (done) {
-        c.query('drop schema `mysql-express-admin`;', 
-        function (err, rows) {
+        c.query('drop schema `mysql-validator`;', function (err, rows) {
             if (err) throw err;
             done();
         });
@@ -80,7 +74,7 @@ var TEST = {
         // D HH:MM:SS, D HH:MM, D HH
         '33 24:59:59', '33 24:59', '33 24',
         // HH:MM:SS, HH:MM, SS
-        '24:59:59', '24:59', '59',
+        '24:59:59', '24:59', '59', '5',
         '837:59:59', '837:59', '837',
         // HHMMSS
         '245959',
@@ -103,4 +97,3 @@ var TEST = {
         '246059', '245960'
     ]
 };
- 

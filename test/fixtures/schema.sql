@@ -12,16 +12,28 @@ USE `mysql-validator` ;
 DROP TABLE IF EXISTS `datatypes` ;
 
 CREATE  TABLE IF NOT EXISTS `datatypes` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `date` DATE NULL ,
   `time` TIME NULL ,
   `datetime` DATETIME NULL ,
   `timestamp` TIMESTAMP NULL ,
   `year` YEAR NULL ,
+  `bigint` BIGINT NULL ,
+  `bigint unsigned` BIGINT UNSIGNED NULL ,
   `int` INT NULL ,
-  `int-unsigned` INT UNSIGNED NULL ,
-  `int-zerofill` INT ZEROFILL NULL ,
-  `char` CHAR NULL ,
+  `int unsigned` INT UNSIGNED NULL ,
+  `int zerofill` INT ZEROFILL NULL ,
+  `mediumint` MEDIUMINT NULL ,
+  `mediumint unsigned` MEDIUMINT UNSIGNED NULL ,
+  `smallint` SMALLINT NULL ,
+  `smallint unsigned` SMALLINT UNSIGNED NULL ,
+  `tinyint` TINYINT NULL ,
+  `tinyint unsigned` TINYINT UNSIGNED NULL ,
+  `bit` BIT NULL ,
+  `float` FLOAT NULL ,
+  `double` DOUBLE NULL ,
+  `decimal` DECIMAL NULL ,
+  `numeric` DECIMAL(10,0) NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 

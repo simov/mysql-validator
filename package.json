@@ -18,7 +18,8 @@
         "url": "git://github.com/simov/mysql-validator.git"
     },
     "dependencies": {
-        "moment": "*"
+        "moment": "*",
+        "bignum": "*"
     },
     "devDependencies": {
         "mysql": "2.0.0-alpha2",
@@ -27,4 +28,4 @@
         "colors": "*"
     },
     "main": "./lib/validator"
-} 
+}

@@ -14,14 +14,14 @@ var mysql = require('mysql'),
 var validator = new (require('../lib/validator').Validator);
 
 
-function testDates (tests, expected, cb) {
+function runTest (tests, expected, cb) {
     var sql = '';
     for (var i=0; i < tests.length; i++) {
-        sql += 'insert into `datetime` (`date`) values ("'+tests[i]+'");';
+        sql += 'insert into `datatypes` (`date`) values ("'+tests[i]+'");';
     }
     c.query(sql, function (err, result) {
         if (err) throw err;
-        c.query('select `date` from `datetime`;', function (err, rows) {
+        c.query('select `date` from `datatypes`;', function (err, rows) {
             if (err) throw err;
             console.log('');
             for (var j=0; j < tests.length; j++) {
@@ -35,7 +35,7 @@ function testDates (tests, expected, cb) {
                 );
                 // ?
             }
-            c.query('delete from `datetime`;', function (err, result) {
+            c.query('delete from `datatypes`;', function (err, result) {
                 if (err) throw err;
                 cb();
             });
@@ -46,59 +46,48 @@ function testDates (tests, expected, cb) {
 
 describe('data type', function () {
     before(function (done) {
-        c.query('create schema if not exists `mysql-express-admin`;'+ 
-                'use `mysql-express-admin`;',
-        function (err, rows) {
+        var schema = fs.readFileSync('./test/fixtures/schema.sql', 'utf8');
+        c.query(schema, function (err, rows) {
             if (err) throw err;
-            var schema = fs.readFileSync('./test/fixtures/schema.sql', 'utf8');
-            c.query(schema, function (err, rows) {
-                if (err) throw err;
-                done();
-            });
+            done();
         });
     });
 
     describe('DATE', function () {
         it('should be well formatted', function (done) {
-            var dates = TEST.format,
-                expected = '"2012-11-02"';
-            testDates(dates, expected, function () {
+            var expected = '"2012-11-02"';
+            runTest(TEST.format, expected, function () {
                 done();
             });
         });
         it('should be a valid day of the month: YYYY-MM-DD', function (done) {
-            var dates = TEST.monthDays1,
-                expected = 'test[j]';
-            testDates(dates, expected, function () {
+            var expected = 'tests[j]';
+            runTest(TEST.monthDays1, expected, function () {
                 done();
             });
         });
         it('should be a valid day of the month: YY-MM-DD', function (done) {
-            var dates = TEST.monthDays2,
-                expected = 'moment(test[j], "YY-MM-DD").format("YYYY-MM-DD")';
-            testDates(dates, expected, function () {
+            var expected = 'moment(tests[j], "YY-MM-DD").format("YYYY-MM-DD")';
+            runTest(TEST.monthDays2, expected, function () {
                 done();
             });
         });
         it('should be a valid day of the month: YYYYMMDD', function (done) {
-            var dates = TEST.monthDays3,
-                expected = 'moment(test[j], "YYYYMMDD").format("YYYY-MM-DD")';
-            testDates(dates, expected, function () {
+            var expected = 'moment(tests[j], "YYYYMMDD").format("YYYY-MM-DD")';
+            runTest(TEST.monthDays3, expected, function () {
                 done();
             });
         });
         it('should be a valid day of the month: YYMMDD', function (done) {
-            var dates = TEST.monthDays4,
-                expected = 'moment(test[j], "YYMMDD").format("YYYY-MM-DD")';
-            testDates(dates, expected, function () {
+            var expected = 'moment(tests[j], "YYMMDD").format("YYYY-MM-DD")';
+            runTest(TEST.monthDays4, expected, function () {
                 done();
             });
         });
     });
 
     after(function (done) {
-        c.query('drop schema `mysql-express-admin`;', 
-        function (err, rows) {
+        c.query('drop schema `mysql-validator`;', function (err, rows) {
             if (err) throw err;
             done();
         });
@@ -153,4 +142,3 @@ var TEST = {
         '121130', '121131'
     ]
 };
- 

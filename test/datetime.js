@@ -14,14 +14,14 @@ var mysql = require('mysql'),
 var validator = new (require('../lib/validator').Validator);
 
 
-function testDates (tests, cb) {
+function runTest (tests, cb) {
     var sql = '';
     for (var i=0; i < tests.length; i++) {
-        sql += 'insert into `datetime` (`datetime`) values ("'+tests[i]+'");';
+        sql += 'insert into `datatypes` (`datetime`) values ("'+tests[i]+'");';
     }
     c.query(sql, function (err, result) {
         if (err) throw err;
-        c.query('select `datetime` from `datetime`;', function (err, rows) {
+        c.query('select `datetime` from `datatypes`;', function (err, rows) {
             if (err) throw err;
             console.log('');
             for (var j=0; j < tests.length; j++) {
@@ -34,7 +34,7 @@ function testDates (tests, cb) {
                 );
                 // ?
             }
-            c.query('delete from `datetime`;', function (err, result) {
+            c.query('delete from `datatypes`;', function (err, result) {
                 if (err) throw err;
                 cb();
             });
@@ -45,39 +45,33 @@ function testDates (tests, cb) {
 
 describe('data type', function () {
     before(function (done) {
-        c.query('create schema if not exists `mysql-express-admin`;'+ 
-                'use `mysql-express-admin`;',
-        function (err, rows) {
+        var schema = fs.readFileSync('./test/fixtures/schema.sql', 'utf8');
+        c.query(schema, function (err, rows) {
             if (err) throw err;
-            var schema = fs.readFileSync('./test/fixtures/schema.sql', 'utf8');
-            c.query(schema, function (err, rows) {
-                if (err) throw err;
-                done();
-            });
+            done();
         });
     });
 
     describe('DATETIME, TIMESTAMP', function () {
         it('should be well formatted', function (done) {
-            testDates(TEST.format, function () {
+            runTest(TEST.format, function () {
                 done();
             });
         });
         it('should be a valid day of the month', function (done) {
-            testDates(TEST.monthDays, function () {
+            runTest(TEST.monthDays, function () {
                 done();
             });
         });
         it('should be a valid time of the day', function (done) {
-            testDates(TEST.dayTime, function () {
+            runTest(TEST.dayTime, function () {
                 done();
             });
         });
     });
 
     after(function (done) {
-        c.query('drop schema `mysql-express-admin`;', 
-        function (err, rows) {
+        c.query('drop schema `mysql-validator`;', function (err, rows) {
             if (err) throw err;
             done();
         });
@@ -132,4 +126,3 @@ var TEST = {
         '121104255616', '121104046016', '121104045660'
     ]
 };
- 

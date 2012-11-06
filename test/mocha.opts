@@ -2,3 +2,4 @@
 --reporter spec
 --timeout 100000
 --watch
+--ignore-leaks
