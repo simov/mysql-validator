@@ -1,6 +1,12 @@
 
-var fs = require('fs'),
-    moment = require('moment');
+/*
+    Execute these commands before running the tests:
+
+    create user 'liolio'@'localhost' identified by 'karamba';
+    grant all on `mysql-validator`.* to 'liolio'@'localhost';
+*/
+
+var fs = require('fs');
 
 var mysql = require('mysql'),
     c = mysql.createConnection({
@@ -26,7 +32,7 @@ describe('mysql database', function () {
             if (err) throw err;
             c.query('select `date` from `datatypes` where id='+result.insertId,
             function (err, rows) {
-                moment(rows[0].date).format('YYYY-MM-DD').should.equal('2012-11-01');
+                rows[0].date.should.equal('2012-11-01');
                 done();
             });
         });

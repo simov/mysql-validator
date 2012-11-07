@@ -31,9 +31,37 @@ CREATE  TABLE IF NOT EXISTS `datatypes` (
   `tinyint unsigned` TINYINT UNSIGNED NULL ,
   `bit` BIT NULL ,
   `float` FLOAT NULL ,
+  `float unsigned` FLOAT UNSIGNED NULL ,
+  `float (6,2)` FLOAT(6,2) NULL ,
+  `float (6,2) unsigned` FLOAT(6,2) UNSIGNED NULL ,
   `double` DOUBLE NULL ,
   `decimal` DECIMAL NULL ,
-  `numeric` DECIMAL(10,0) NULL ,
+  `decimal (6,2)` DECIMAL(6,2) NULL ,
+  `char` CHAR NULL ,
+  `varchar(45)` VARCHAR(45) NULL ,
+  `tinytext` TINYTEXT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `datatypes_copy1`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `datatypes_copy1` ;
+
+CREATE  TABLE IF NOT EXISTS `datatypes_copy1` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `date` DATE NULL ,
+  `time` TIME NULL ,
+  `datetime` DATETIME NULL ,
+  `timestamp` TIMESTAMP NULL ,
+  `year` YEAR NULL ,
+  `bigint` BIGINT NULL ,
+  `bigint unsigned` BIGINT UNSIGNED NULL ,
+  `int` INT NULL ,
+  `int unsigned` INT UNSIGNED NULL ,
+  `int zerofill` INT ZEROFILL NULL ,
+  `medium int` MEDIUMINT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 

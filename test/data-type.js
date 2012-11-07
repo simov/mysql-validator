@@ -1,6 +1,12 @@
 
-var fs = require('fs'),
-    moment = require('moment');
+/*
+    Execute these commands before running the tests:
+
+    create user 'liolio'@'localhost' identified by 'karamba';
+    grant all on `mysql-validator`.* to 'liolio'@'localhost';
+*/
+
+var fs = require('fs');
 require('colors');
 
 var mysql = require('mysql'),
@@ -10,8 +16,10 @@ var mysql = require('mysql'),
         typeCast: false,
         multipleStatements: true
     });
+
 var table = {},
     dataType = new (require('../lib/data-type')).DataType;
+
 
 describe('mysql database', function () {
     before(function (done) {
