@@ -44,28 +44,6 @@ CREATE  TABLE IF NOT EXISTS `datatypes` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `datatypes_copy1`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `datatypes_copy1` ;
-
-CREATE  TABLE IF NOT EXISTS `datatypes_copy1` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
-  `date` DATE NULL ,
-  `time` TIME NULL ,
-  `datetime` DATETIME NULL ,
-  `timestamp` TIMESTAMP NULL ,
-  `year` YEAR NULL ,
-  `bigint` BIGINT NULL ,
-  `bigint unsigned` BIGINT UNSIGNED NULL ,
-  `int` INT NULL ,
-  `int unsigned` INT UNSIGNED NULL ,
-  `int zerofill` INT ZEROFILL NULL ,
-  `medium int` MEDIUMINT NULL ,
-  PRIMARY KEY (`id`) )
-ENGINE = InnoDB;
-
-
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
