@@ -21,7 +21,7 @@ describe('mysql database', function () {
     before(function (done) {
         var schema = fs.readFileSync('./test/fixtures/schema.sql', 'utf8');
         c.query(schema, function (err, rows) {
-            if (err) throw err;
+            if (err) return done(err);
             done();
         });
     });
@@ -29,7 +29,7 @@ describe('mysql database', function () {
     it('should store a record and select it', function (done) {
         c.query('insert into `datatypes` (`date`) values ("2012-11-01");', 
         function (err, result) {
-            if (err) throw err;
+            if (err) return done(err);
             c.query('select `date` from `datatypes` where id='+result.insertId,
             function (err, rows) {
                 rows[0].date.should.equal('2012-11-01');
@@ -40,7 +40,7 @@ describe('mysql database', function () {
 
     after(function (done) {
         c.query('drop schema `mysql-validator`;', function (err, rows) {
-            if (err) throw err;
+            if (err) return done(err);
             done();
         });
     });

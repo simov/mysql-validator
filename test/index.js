@@ -27,9 +27,9 @@ function runTest (tests, type, valid, cb) {
         sql += 'insert into `datatypes` (`'+type+'`) values ("'+tests[i]+'");';
     }
     c.query(sql, function (err, result) {
-        if (err) throw err;
+        if (err) return cb(err);
         c.query('select `'+type+'` from `datatypes`;', function (err, rows) {
-            if (err) throw err;
+            if (err) return cb(err);
             if (valid) console.log('\t'+type.blue.bold);
             console.log(valid ? '\tvalid'.magenta : '\tinvalid'.magenta);
             function loop (i, cb) {
@@ -52,7 +52,7 @@ function runTest (tests, type, valid, cb) {
             }
             loop(0, function () {
                 c.query('delete from `datatypes`;', function (err, result) {
-                    if (err) throw err;
+                    if (err) return cb(err);
                     cb();
                 });
             });
@@ -65,7 +65,7 @@ describe('data type', function () {
     before(function (done) {
         var schema = fs.readFileSync('./test/fixtures/schema.sql', 'utf8');
         c.query(schema, function (err, rows) {
-            if (err) throw err;
+            if (err) return done(err);
             done();
         });
     });
@@ -97,8 +97,10 @@ describe('data type', function () {
             if (i == keys.length) {
                 return cb();
             }
-            runTest(TEST[keys[i]].valid, keys[i], true, function () {
-                runTest(TEST[keys[i]].invalid, keys[i], false, function () {
+            runTest(TEST[keys[i]].valid, keys[i], true, function (err) {
+                if (err) return done(err);
+                runTest(TEST[keys[i]].invalid, keys[i], false, function (err) {
+                    if (err) return done(err);
                     loopTypes(++i, cb);
                 });
             });
@@ -108,7 +110,7 @@ describe('data type', function () {
 
     after(function (done) {
         c.query('drop schema `mysql-validator`;', function (err, rows) {
-            if (err) throw err;
+            if (err) return done(err);
             done();
         });
     });

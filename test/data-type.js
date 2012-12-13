@@ -25,14 +25,14 @@ describe('mysql database', function () {
     before(function (done) {
         var schema = fs.readFileSync('./test/fixtures/schema.sql', 'utf8');
         c.query(schema, function (err, rows) {
-            if (err) throw err;
+            if (err) return done(err);
             done();
         });
     });
 
     it('should get columns info', function (done) {
         c.query('describe `datatypes`;', function (err, rows) {
-            if (err) throw err;
+            if (err) return done(err);
             for (var i=0; i < rows.length; i++) {
                 var column = rows[i];
                 table[column.Field] = {
@@ -66,7 +66,7 @@ describe('mysql database', function () {
 
     after(function (done) {
         c.query('drop schema `mysql-validator`;', function (err, rows) {
-            if (err) throw err;
+            if (err) return done(err);
             done();
         });
     });
