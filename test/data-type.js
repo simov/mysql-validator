@@ -18,7 +18,7 @@ var mysql = require('mysql'),
     });
 
 var table = {},
-    dataType = new (require('../lib/data-type')).DataType;
+    dataType = require('../lib/data-type');
 
 
 describe('mysql database', function () {

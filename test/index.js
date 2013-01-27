@@ -18,7 +18,7 @@ var mysql = require('mysql'),
         multipleStatements: true
     });
 
-var validator = new (require('../lib/validator').Validator);
+var validator = require('../lib/validator');
 
 
 function runTest (tests, type, valid, cb) {

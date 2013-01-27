@@ -9,7 +9,7 @@ Validates web forms input against mysql database.
 ##API
 
 ```js
-var validator = new (require('mysql-validator').Validator);
+var validator = require('mysql-validator');
 
 validator.check('doh winning!', 'varchar(45)', function (err) {
   if (err) {
@@ -28,9 +28,9 @@ The best way to pass the corresponding data type for your input field is to quer
 describe `table-name`;
 ```
 
-All you need to look for is the `Type` field. This is the string that the validator expects to see as a second parameter.
+All you need to look for is the `Type` column. This is the string that the validator expects to see as a second parameter.
 
-To see an example output of this query, navigate to the root of the mysql-vavigator and execute this line.
+This will give you an idea of what object is constructed after the data type string have been parsed. This object is used internally by the validator.
 
     $ mocha test/data-type.js
 
