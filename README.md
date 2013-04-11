@@ -11,11 +11,10 @@ Validates web forms input against mysql database.
 ```js
 var validator = require('mysql-validator');
 
-validator.check('doh winning!', 'varchar(45)', function (err) {
-  if (err) {
-    console.log(err.message);
-  }
-});
+var err = validator.check('doh winning!', 'varchar(45)');
+if (err) {
+  console.log(err.message);
+}
 ```
 
 The first parameter is the posted input data and the second is the mysql data type of the field in your database.
@@ -53,33 +52,26 @@ Then your router may look like this.
 
 ```js
 app.post('/save', function (req, res) {
-  // all submitted field names
-  var keys = Object.keys(req.body);
   // we'll store all validation errors here
   var errors = [];
-  // our handy field-type mapping (this may be the result of 'describe table')
+  // field-type mapping (this may be the result of 'describe table')
   var types = {
     name: 'varchar(10)',
     cache: 'decimal(6,2) unsigned',
     date: 'datetime'
   }
   // loop through the submitted fields and validate them
-  function loop (i, cb) {
-    if (i == keys.length) return cb();
-    validator.check(req.body[keys[i]], type[keys[i]], function (err) {
-      // store the error's message and the field name
-      if (err) errors.push({ name: keys[i], error: err.message });
-      loop(++i, cb);
-    });
+  for (var key in req.body) {
+    var err = validator.check(req.body[key], types[key]);
+    // store the error's message and the field name
+    if (err) errors.push({ name: key, error: err.message });
   }
-  loop(0, function () {
-    if (errors.length) {
-      // now that we have all errors we can notify the user about them
-      res.render('template', { err: errors, other: 'params...' });
-    } else {
-      // we can safely store the user's input into the database
-    }        
-  });
+  if (errors.length) {
+    // notify the user about the errors
+    res.render('template', { err: errors, other: 'params...' });
+  } else {
+    // safely store the user's input into the database
+  }
 });
 ```
 

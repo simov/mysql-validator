@@ -49,19 +49,13 @@ describe('mysql database', function () {
     });
 
     it('should test data types', function (done) {
-        var keys = Object.keys(table);
         console.log('');
-        function loop (index) {
-            if (index == keys.length) {
-                return done();
-            }
-            var column = table[keys[index]];
-            dataType.get(column.type, function (type) {
-                console.log(column.type.yellow, type);
-                loop(++index);
-            });
+        for (var key in table) {
+            var column = table[key],
+                type = dataType.get(column.type);
+            console.log(column.type.yellow, type);
         }
-        loop(0);
+        done();
     });
 
     after(function (done) {

@@ -32,29 +32,24 @@ function runTest (tests, type, valid, cb) {
             if (err) return cb(err);
             if (valid) console.log('\t'+type.blue.bold);
             console.log(valid ? '\tvalid'.magenta : '\tinvalid'.magenta);
-            function loop (i, cb) {
-                if (i == tests.length) {
-                    return cb();
-                }
-                validator.check(tests[i], type, function (err) {
-                    // print
-                    console.log('\t'+
-                        (!err ? rows[i][type].green : rows[i][type].red),
-                        tests[i].yellow, 
-                        (!err ? 'valid'.green : err.message.red)
-                    );
-                    // test
-                    valid 
-                        ? should.equal(err, null) 
-                        : err.should.be.an.instanceOf(Error);
-                    loop(++i, cb);
-                });
+
+            for (var i=0; i < tests.length; i++) {
+                var err = validator.check(tests[i], type);
+                // print
+                console.log('\t'+
+                    (!err ? rows[i][type].green : rows[i][type].red),
+                    tests[i].yellow, 
+                    (!err ? 'valid'.green : err.message.red)
+                );
+                // test
+                valid 
+                    ? should.equal(err, null) 
+                    : err.should.be.an.instanceOf(Error);
             }
-            loop(0, function () {
-                c.query('delete from `datatypes`;', function (err, result) {
-                    if (err) return cb(err);
-                    cb();
-                });
+            
+            c.query('delete from `datatypes`;', function (err, result) {
+                if (err) return cb(err);
+                cb();
             });
         });
     });
