@@ -1,6 +1,6 @@
 {
     "name": "mysql-validator",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "description": "MySql data type validation.",
     "keywords": [
         "mysql",
