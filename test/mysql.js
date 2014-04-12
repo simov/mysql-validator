@@ -32,7 +32,8 @@ describe('mysql database', function () {
             if (err) return done(err);
             c.query('select `date` from `datatypes` where id='+result.insertId,
             function (err, rows) {
-                rows[0].date.should.equal('2012-11-01');
+                if (err) return done(err);
+                rows[0].date.toString('utf8').should.equal('2012-11-01');
                 done();
             });
         });

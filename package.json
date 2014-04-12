@@ -22,7 +22,7 @@
         "big-integer": "*"
     },
     "devDependencies": {
-        "mysql": "2.0.0-alpha2",
+        "mysql": "2.1.1",
         "mocha": "*",
         "should": "*",
         "colors": "*"

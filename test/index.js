@@ -34,10 +34,11 @@ function runTest (tests, type, valid, cb) {
             console.log(valid ? '\tvalid'.magenta : '\tinvalid'.magenta);
 
             for (var i=0; i < tests.length; i++) {
-                var err = validator.check(tests[i], type);
+                var err = validator.check(tests[i], type),
+                    value = rows[i][type].toString('utf8');
                 // print
                 console.log('\t'+
-                    (!err ? rows[i][type].green : rows[i][type].red),
+                    (!err ? value.green : value.red),
                     tests[i].yellow, 
                     (!err ? 'valid'.green : err.message.red)
                 );
